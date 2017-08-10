@@ -63,7 +63,7 @@ def displayInfo(w):
 	w.pack()	
 	
 root = Tk()
-root.title("SSID Grabber")
+root.title("SSID Key Grabber")
 w = Label(root,text="", anchor="w",    justify=LEFT, width=30)
 displayInfo(w)
 
