@@ -3,6 +3,9 @@ import subprocess
 import time
 from Tkinter import *
 
+#Define filename to write SSIDs/Keys to
+FNAME = 'keys.txt'
+
 #Define function that gathers list of profiles from host machine
 def nabProfiles():
 	#Set cmd to netsh profile query shell, pass it to shell
@@ -71,17 +74,21 @@ def displayInfo(w):
 
 	w.pack()
 	texto = ""
+	f = open(FNAME,'w')
+	f.write('SSID/Keys:\n====================\n\n')
 	for i in range(0,len(textout)):
+		f.write(textout[i]+'\n')
 		texto = texto + textout[i] + "\n"
 		if not ("SSID" in textout[i]):
 			texto = texto + "*************\n"
-	w = Label(root, text = texto,  justify=LEFT, width=30)
+			f.write('\n=================\n\n')
+	w = Label(root, text = texto,  justify=LEFT)
 	w.pack()	
 
 #init GUI, make it do stuff
 root = Tk()
 root.title("SSID Key Grabber")
-w = Label(root,text="", anchor="w",    justify=LEFT, width=30)
+w = Label(root,text="", anchor="w",    justify=LEFT)
 displayInfo(w)
 
 root.mainloop()
