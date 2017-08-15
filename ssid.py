@@ -1,7 +1,7 @@
 #Load necessary modules
 import subprocess
-import time
-from Tkinter import *
+import ctypes
+import webbrowser
 
 #Define filename to write SSIDs/Keys to
 FNAME = 'keys.txt'
@@ -65,30 +65,19 @@ def gatherInfo():
 	textout = nabKeys(profiles)
 	return textout
 
-#send data to TKinter GUI
-def displayInfo(w):
+#Define function that gathers input from shell, writes to keyfile
+def writeInfo():
 	textout = gatherInfo()
-	w = Label(root, text= "SSID Key Info:", justify=LEFT, width=30)
-	w.pack()
-	w = Label(root, text= "============")
-
-	w.pack()
 	texto = ""
 	f = open(FNAME,'w')
 	f.write('SSID/Keys:\n====================\n\n')
 	for i in range(0,len(textout)):
 		f.write(textout[i]+'\n')
 		texto = texto + textout[i] + "\n"
+		texto = textout[i]
 		if not ("SSID" in textout[i]):
-			texto = texto + "*************\n"
 			f.write('\n=================\n\n')
-	w = Label(root, text = texto,  justify=LEFT)
-	w.pack()	
-
-#init GUI, make it do stuff
-root = Tk()
-root.title("SSID Key Grabber")
-w = Label(root,text="", anchor="w",    justify=LEFT)
-displayInfo(w)
-
-root.mainloop()
+	ctypes.windll.user32.MessageBoxA(0, 'SSID Keys written to file '+FNAME,'SSID Keys',0)
+	
+writeInfo()
+webbrowser.open(FNAME)
